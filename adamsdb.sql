@@ -2,6 +2,8 @@ CREATE TABLE "students" (
   "student_id" SERIAL PRIMARY KEY,
   "first_name" varchar,
   "last_name" varchar,
+  "username" varchar,
+  "key" varchar,
   "class_fid" int
 );
 
