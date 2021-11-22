@@ -1,2 +1,2 @@
 # AdamsApi
-Restful API für AdamsApp
+Restful API für AdamsApp.
