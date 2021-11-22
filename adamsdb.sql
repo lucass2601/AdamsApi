@@ -1,4 +1,4 @@
-CREATE TABLE "student" (
+CREATE TABLE "students" (
   "student_id" SERIAL PRIMARY KEY,
   "first_name" varchar,
   "last_name" varchar,
@@ -36,7 +36,7 @@ CREATE TABLE "subject_classes" (
   "class_fid" int
 );
 
-ALTER TABLE "student" ADD FOREIGN KEY ("class_fid") REFERENCES "classes" ("class_id");
+ALTER TABLE "students" ADD FOREIGN KEY ("class_fid") REFERENCES "classes" ("class_id");
 
 ALTER TABLE "subject_classes" ADD FOREIGN KEY ("class_fid") REFERENCES "classes" ("class_id");
 
