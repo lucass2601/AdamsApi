@@ -4,9 +4,8 @@ const signin = async (req, res) => {
     let username = req.body.username;
     let key = req.body.key;
 
-    console.log(req.body);
     if (username && key) {
-        const findStudent = await pool.query(`SELECT student_id, first_name, last_name, title FROM students INNER JOIN classes ON classes.class_id = students.class_fid WHERE username = $1 AND key = $2`, [username, key])
+        const findStudent = await pool.query(`SELECT student_id, first_name, last_name, class_name FROM students INNER JOIN classes ON classes.class_id = students.class_fid WHERE username = $1 AND key = $2`, [username, key])
         if (findStudent.rowCount > 0) {
             res.status(200).send({
                 status: 'success',
