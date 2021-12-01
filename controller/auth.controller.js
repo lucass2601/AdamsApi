@@ -3,18 +3,29 @@ const pool = require('../db') // Datenbank Objekt wird importiert
 const signin = async (req, res) => {
     let username = req.body.username;
     let key = req.body.key;
+
+    console.log(req.body);
     if (username && key) {
-        const findStudent = await pool.query(`SELECT * FROM students WHERE username = $1 AND key = $2`, [username, key])
+        const findStudent = await pool.query(`SELECT student_id, first_name, last_name, title FROM students INNER JOIN classes ON classes.class_id = students.class_fid WHERE username = $1 AND key = $2`, [username, key])
         if (findStudent.rowCount > 0) {
-            res.send('User exists')
+            res.status(200).send({
+                status: 'success',
+                message: 'Erfolgreich eingeloggt.',
+                user: findStudent.rows
+            })
         } else {
-            res.send('Incorrect Username and/or Password!');
+            res.status(200).send({
+                status: 'error',
+                message: 'Falscher Username/Schlüssel.',
+            })
         }
         res.end();
-
     } else {
-        response.send('Please enter Username and Password!');
-        response.end();
+        res.status(200).send({
+            status: 'error',
+            message: 'Bitte Username und Schlüssel angeben.',
+        })
+        res.end();
     }
 }
 

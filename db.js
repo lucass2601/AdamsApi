@@ -2,14 +2,12 @@ let Pool = require('pg').Pool
 /* node-postgres (pg) als package, um eine Verbindung zu Postgres herzustellen  */
 
 const pool = new Pool({
-    user: "postgres",
-    password: "2601",
-    host: "localhost",
+    user: "adamsapp",
+    password: "B7kaHb,JE{gL$?:",
+    host: "5.230.68.246",
     port: 5432,
-    database: "adamsdb"
+    database: "adamsapp"
 })
-
-// WICHTIG: POOL MUSS ANGEPASST WERDEN
 
 module.exports = pool
 
