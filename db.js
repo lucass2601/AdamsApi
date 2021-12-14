@@ -4,7 +4,7 @@ let Pool = require('pg').Pool
 const pool = new Pool({
     user: "emp",
     password: "postgres_pass",
-    host: "192.168.178.62",
+    host: "localhost",
     port: 5001,
     database: "emp"
 })

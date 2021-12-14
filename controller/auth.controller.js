@@ -1,4 +1,7 @@
+require('dotenv').config();
 const pool = require('../db') // Datenbank Objekt wird importiert
+let genToken = require('../api/authtoken');
+
 
 const signin = async (req, res) => {
     let username = req.body.username;
@@ -6,7 +9,10 @@ const signin = async (req, res) => {
     if (username && keys) {
         const findStudent = await pool.query(`SELECT * FROM students WHERE username = $1 AND keys = $2`, [username, keys])
         if (findStudent.rowCount > 0) {
-            res.send('User exists')
+            // Generating token
+            const token = genToken.generateAccessToken(username, 1)
+            res.json(token);
+
         } else {
             res.send('Incorrect Username and/or Password!');
         }
