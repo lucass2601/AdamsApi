@@ -3,8 +3,8 @@ require('dotenv').config();
 const jwt_decode = require('jwt-decode');
 
 // Macht neuen Access Token für User
-function generateAccessToken(username, student_id) {
-    const user = {name: username, id: student_id}
+function generateAccessToken(username, student_id, student_class) {
+    const user = {name: username, id: student_id, class: student_class}
     return jwt.sign(user, process.env.TOKEN_SECRET/* , { expiresIn: '10min' } */);
 }
 
@@ -17,10 +17,9 @@ function authentificateToken(req, res, next){
     jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
         if (err) return res.sendStatus(403)
         req.user = user
+        res.status(200).send(parseJwt(token));
         next()
     })
-    console.log(token);
-    console.log(parseJwt(token));
 }
 
 // wandelt den Token in JSON um
