@@ -5,6 +5,7 @@ const WebUntisLib = require('webuntis')
 const getTimetable = async (req, res) => {
     let untis = new WebUntisLib('ajc-bk-ratingen', '_schueler', 'AjcBK125', 'neilo.webuntis.com');
 
+    console.log(req.body);
     let student_class = req.body.class
 
     untis
@@ -20,6 +21,8 @@ const getTimetable = async (req, res) => {
         })
         .then((timetable) => {
             res.status(200).send({
+                status: 'success',
+                message: 'Daten wurden erfolgreich geladen.',
                 data: timetable
             })
         });
