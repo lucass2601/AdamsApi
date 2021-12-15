@@ -47,3 +47,10 @@ ALTER TABLE "subject_classes" ADD FOREIGN KEY ("subject_fid") REFERENCES "subjec
 ALTER TABLE "exams" ADD FOREIGN KEY ("subject_fid") REFERENCES "subjects" ("subject_id");
 
 ALTER TABLE "homework" ADD FOREIGN KEY ("subject_fid") REFERENCES "subjects" ("subject_id");
+
+CREATE TABLE "refresh_token" (
+  "token_id" SERIAL PRIMARY KEY,
+  "token" varchar
+);
+
+ALTER TABLE "students" ADD FOREIGN KEY ("refreshToken_ID") REFERENCES "refresh_token" ("token_id");

@@ -16,9 +16,9 @@ const signin = async (req, res) => {
                 const ids = results.rows[0].student_id;
                 const user = results.rows[0].username;
                 const userclass = results.rows[0].title;
-                const token = genToken.generateAccessToken(user, ids, userclass)
-                res.json(token);
-    
+                const token = genToken.generateAccessToken(user, ids, userclass);
+                const refreshtoken = genToken.refreshToken(user, ids, userclass);
+                res.json({Accesstoken : token, RefreshToken: refreshtoken});
             } else {
                 res.send('Incorrect Username and/or Password!');
             }
