@@ -1,6 +1,6 @@
 require('dotenv').config();
 const pool = require('../db') // Datenbank Objekt wird importiert
-const genToken = require('../api/authtoken');
+const token = require('../api/authtoken');
 
 // Login system, generiert JWT Token
 const signin = async (req, res) => {
@@ -18,15 +18,15 @@ const signin = async (req, res) => {
                 const userclass = results.rows[0].title;
 
                 // Token generieren
-                const token = genToken.generateAccessToken(user, ids, userclass);
+                const accessToken = token.generateAccessToken(user, ids, userclass);
                 // Refresh Token generieren
-                const refreshtoken = genToken.refreshToken(user, ids, userclass);
+                const refreshToken = token.refreshToken(user, ids, userclass);
 
-                genToken.sendTokenToDatabase(refreshtoken);
+                token.sendTokenToDatabase(refreshToken);
 
 
-                // Token und Refreshtoken übergeben
-                res.json({ Accesstoken: token, RefreshToken: refreshtoken });
+                // accessToken und refreshToken übergeben
+                res.json({ accessToken, refreshToken });
             } else {
                 res.send('Incorrect Username and/or Password!');
             }

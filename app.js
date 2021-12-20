@@ -11,22 +11,20 @@ app.use(cors({
 
 const port = 3000
 
-let students = require('./routes/students')
 let authController = require('./controller/auth.controller')
-let untisapi = require('./untisapi')
-let authtoken = require('./api/authtoken')
 
-app.get('/students', students.getStudents)
-app.get('/students/:student_id', students.getStudentById)
+let untisApi = require('./routes/untis')
+
+let authToken = require('./api/authtoken')
 
 // Login Datenbank abfragen
 app.post('/signin', jsonParser, authController.signin)
 // verifiziert token und wandelt token in json um
-app.get('/posts', authtoken.authentificateToken)
+app.get('/posts', authToken.authenticateToken)
 //generiert neuen token mit refreshtoken
-app.post('/token', jsonParser, authtoken.tokenrenew)
+app.post('/token', jsonParser, authToken.renewToken)
 
-app.get('/untis', untisapi.untis)
+app.get('/untis', untisApi.getTimetable)
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
