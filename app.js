@@ -21,7 +21,10 @@ app.get('/students/:student_id', students.getStudentById)
 
 // Login Datenbank abfragen
 app.post('/signin', jsonParser, authController.signin)
+// verifiziert token und wandelt token in json um
 app.get('/posts', authtoken.authentificateToken)
+//generiert neuen token mit refreshtoken
+app.post('/token', jsonParser, authtoken.tokenrenew)
 
 app.get('/untis', untisapi.untis)
 

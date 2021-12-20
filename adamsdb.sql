@@ -50,7 +50,8 @@ ALTER TABLE "homework" ADD FOREIGN KEY ("subject_fid") REFERENCES "subjects" ("s
 
 CREATE TABLE "refresh_token" (
   "token_id" SERIAL PRIMARY KEY,
-  "token" varchar
+  "token" varchar,
+  "student_id" int
 );
 
-ALTER TABLE "students" ADD FOREIGN KEY ("refreshToken_ID") REFERENCES "refresh_token" ("token_id");
+ALTER TABLE "refresh_token" ADD FOREIGN KEY ("student_id") REFERNECES "students" ("student_id")
