@@ -3,7 +3,7 @@ const pool = require('../db') // Datenbank Objekt wird importiert
 const getAllHomework = async (req, res) => {
     const class_id = req.body.user.class_id
     pool.query(`SELECT homework.homework_id, homework.homework_title, homework.homework_description,
-    homework.homework_date_due, homework.homework_created_at, homework.homework_created_by, homework.homework_last_edit_at, homework.homework_last_edit_by, classes.class_id, classes.class_name FROM homework
+    homework.homework_date_due, homework.homework_created_at, homework.homework_created_by, homework.homework_last_edit_at, homework.homework_last_edit_by, homework.homework_done, classes.class_id, classes.class_name FROM homework
     INNER JOIN classes_exams ON classes_exams.exam_fid = homework.homework_id
     INNER JOIN classes ON classes.class_id = classes_exams.class_fid
     WHERE classes.class_id = $1;
@@ -18,7 +18,7 @@ const getHomework = async (req, res) => {
     const class_id = req.body.user.class_id
     const homework_id = req.params.id
     pool.query(`SELECT homework.homework_id, homework.homework_title, homework.homework_description,
-    homework.homework_date_due, homework.homework_created_at, homework.homework_created_by, homework.homework_last_edit_at, homework.homework_last_edit_by, classes.class_id, classes.class_name FROM homework
+    homework.homework_date_due, homework.homework_created_at, homework.homework_created_by, homework.homework_last_edit_at, homework.homework_last_edit_by, homework.homework_done, classes.class_id, classes.class_name FROM homework
     INNER JOIN classes_exams ON classes_exams.exam_fid = homework.homework_id
     INNER JOIN classes ON classes.class_id = classes_exams.class_fid
      WHERE homework.homework_id = $1 AND classes.class_id = $2;
