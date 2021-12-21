@@ -5,34 +5,41 @@ const token = require('../api/authtoken');
 // Login system, generiert JWT Token
 const signin = async (req, res) => {
     let username = req.body.username;
-    let keys = req.body.keys;
-    if (username && keys) {
-        await pool.query(`SELECT students.student_id, students.username, classes.title FROM students INNER JOIN classes ON students.class_fid = classes.class_id WHERE username = $1 AND keys = $2`, [username, keys], (error, results) => {
+    let key = req.body.key;
+    if (username && key) {
+        await pool.query(`SELECT students.student_id, students.first_name, students.last_name, students.username, students.class_fid, classes.class_name FROM students INNER JOIN classes ON students.class_fid = classes.class_id WHERE username = $1 AND key = $2`, [username, key], (error, results) => {
             if (error) {
                 throw error
             }
             if (results.rowCount > 0) {
                 //Informationen von den User aus der Datenabnk holen und token übergeben
-                const ids = results.rows[0].student_id;
-                const user = results.rows[0].username;
-                const userclass = results.rows[0].title;
+                const user = {
+                    student_id: results.rows[0].student_id,
+                    first_name: results.rows[0].first_name,
+                    last_name: results.rows[0].last_name,
+                    username: results.rows[0].username,
+                    class_id: results.rows[0].class_fid,
+                    class_name: results.rows[0].class_name,
+                }
 
                 // Token generieren
-                const accessToken = token.generateAccessToken(user, ids, userclass);
+                const accessToken = token.generateAccessToken(user);
                 // Refresh Token generieren
-                const refreshToken = token.refreshToken(user, ids, userclass);
+                const refreshToken = token.refreshToken(user);
 
                 token.sendTokenToDatabase(refreshToken);
 
 
                 // accessToken und refreshToken übergeben
-                res.json({ accessToken, refreshToken });
+                res.json({ status: 'success', message: 'Erfolgreich eingeloggt', accessToken, refreshToken });
             } else {
-                res.send('Incorrect Username and/or Password!');
+                res.json({ status: 'error', message: 'Falscher Username/Passwort!' });
             }
             res.end();
 
         })
+    } else {
+        res.json({ status: 'error', message: 'Leere Datensätze' })
     }
 }
 
